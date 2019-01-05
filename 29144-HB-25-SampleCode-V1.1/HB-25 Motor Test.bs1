@@ -1,0 +1,52 @@
+' =========================================================================
+'   File...... HB-25 Motor Test.bs1
+'   Purpose... Tests One HB-25 Connected To P0
+'   Author.... Parallax, Inc.
+'   E-mail.... support@parallax.com
+'   Updated... 08-01-2006
+'
+'   {$STAMP BS1}
+'   {$PBASIC 1.0}
+
+' -----[ Program Description ]---------------------------------------------
+
+' This program tests the HB-25 by waiting for it to power up, then pulsing
+' the output to ramp the motor up, wait 3 seconds then ramp back down to a
+' stop.  This code was written for one HB-25 connected in Mode 1 (Single)
+' to PIN0.
+
+
+' -----[ I/O Definitions ]-------------------------------------------------
+
+SYMBOL          HB25 =  7               ' I/O Pin For HB-25
+
+
+' -----[ Variables ]-------------------------------------------------------
+
+SYMBOL          index = B0              ' Variable Space For Ramp Counter
+
+' -----[ Initialization ]--------------------------------------------------
+
+Startup:
+IF PIN7 = 0 THEN Startup                ' Wait For HB-25 Power Up (P0)
+LET             DIRS =  %10000001       ' Set PIN0 To Output
+PAUSE 5                                 ' Wait For HB-25 To Initialize
+PULSOUT HB25, 150                       ' Stop Motor
+PAUSE 20                                ' Wait 20 mS
+
+
+' -----[ Program Code ]----------------------------------------------------
+
+Main:
+  FOR index = 150 TO 200                ' Ramp Up To Full Speed
+    PULSOUT HB25, index                 ' Motor Forward
+    PAUSE 150                           ' 150 mS Smoothing Delay
+  NEXT
+  PAUSE 3000                            ' Wait 3 Seconds
+  FOR index = 200 TO 150 STEP -1        ' Ramp Back Down
+    PULSOUT HB25, index                 ' Motor Forward Slowing
+    PAUSE 150                           ' 150 mS Smoothing Delay
+  NEXT
+
+Finish:
+  GOTO Finish                           ' Prevent PIN0 From Changing State

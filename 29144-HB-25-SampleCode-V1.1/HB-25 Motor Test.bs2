@@ -1,0 +1,59 @@
+' =========================================================================
+'   File...... HB-25 Motor Test.bs2
+'   Purpose... Tests One Or Two HB-25's Connected To P15
+'   Author.... Parallax, Inc.
+'   E-mail.... support@parallax.com
+'   Updated... 01-18-2006
+'
+'   {$STAMP BS2}
+'   {$PBASIC 2.5}
+
+' -----[ Program Description ]---------------------------------------------
+
+' This program tests the HB-25 by waiting for it to power up, then pulsing
+' the output to ramp the motors up in opposite directions, wait 3 seconds
+' then ramp them back down to a stopped position.  While the code is
+' written for two HB-25/motors you can use it with just one by commenting
+' out or removing the lines for the second motor, commented below.  If you
+' have two HB-25/motors connected, remember to remove the jumper block from
+' the second HB-25.
+
+
+' -----[ I/O Definitions ]-------------------------------------------------
+
+HB25            PIN     15              ' I/O Pin For HB-25
+
+
+' -----[ Variables ]-------------------------------------------------------
+
+index           VAR     Word            ' Counter For Ramping
+
+
+' -----[ Initialization ]--------------------------------------------------
+
+DO : LOOP UNTIL HB25 = 1                ' Wait For HB-25 Power Up
+LOW HB25                                ' Make I/O Pin Output/Low
+PAUSE 5                                 ' Wait For HB-25 To Initialize
+PULSOUT HB25, 750                       ' Stop Motor 1
+PAUSE 1                                 ' 1 mS Delay
+PULSOUT HB25, 750                       ' Stop Motor 2 (If Connected)
+                                        ' The Above 2 Lines May Be Removed
+                                        ' If You Are Using Single Mode
+' -----[ Program Code ]----------------------------------------------------
+
+Main:
+  PAUSE 20                              ' Wait 20 mS Before Ramping
+  FOR index = 0 TO 250                  ' Ramp Up To Full Speed
+    PULSOUT HB25, 750 + index           ' Motor 1 Forward
+    PAUSE 1                             ' 1 mS Delay For Motor 2 Pulse
+    PULSOUT HB25, 750 - index           ' Motor 2 Reverse
+    PAUSE 20                            ' 20 mS Smoothing Delay
+  NEXT
+  PAUSE 3000                            ' Wait 3 Seconds
+  FOR index = 250 TO 0                  ' Ramp Back Down
+    PULSOUT HB25, 750 + index           ' Motor 1 Forward Slowing
+    PAUSE 1                             ' 1 mS Delay For Motor 2
+    PULSOUT HB25, 750 - index           ' Motor 2 Reverse Slowing
+    PAUSE 20                            ' 20 mS Smoothing Delay
+  NEXT
+  STOP                                  ' Use STOP To Prevent State Change
