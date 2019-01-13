@@ -123,8 +123,7 @@ int wifi_scan(int protocol, int handle, const char *fmt, ...)
       break;
     case TCP:
       t = CNT;
-      //if(wifi_event == 'S')
-      if( (wifi_event == 'S') || (wifi_event == 'D') )
+      if(wifi_event == 'S')
       {
         int protocol = 0;
         dprint(wifi_fds, "%c%c%d,%d\r", CMD, RECV, handle, size);

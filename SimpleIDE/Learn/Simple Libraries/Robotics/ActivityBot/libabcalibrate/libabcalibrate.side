@@ -1,8 +1,6 @@
 libabcalibrate.c
 abcalibrate.c -> abcalibrate.c
 abcalibrate.h -> abcalibrate.h
-calibrationResults.c
-Display.c
 >compiler=C
 >memtype=cmm main ram compact
 >optimize=-Os

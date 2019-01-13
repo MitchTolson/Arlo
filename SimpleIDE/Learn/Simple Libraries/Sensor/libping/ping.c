@@ -2,7 +2,6 @@
 
 int ping(int pin)
 {
-  pause(1);
   low(pin);
   pulse_out(pin, 10);
   return pulse_in(pin, 1);

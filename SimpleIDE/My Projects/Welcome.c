@@ -28,4 +28,5 @@
 int main()                                    // Main function
 {
   print("Hello!");                            // Display test message
+  print("\nHello!"); 
 }

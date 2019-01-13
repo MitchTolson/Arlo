@@ -20,6 +20,7 @@
 int __pinAG;
 
 float __aRes;
+float __aBias[3];
 int __aBiasRaw[3];
 char __autoCalc;
 
@@ -38,7 +39,7 @@ void imu_readAccel(int *ax, int *ay, int *az)
   *ay = (int) tempY;
   *az = (int) tempZ;
 
-  if (__autoCalc & 0b10)
+  if (__autoCalc)
   {
     *ax -= __aBiasRaw[X_AXIS];
     *ay -= __aBiasRaw[Y_AXIS];

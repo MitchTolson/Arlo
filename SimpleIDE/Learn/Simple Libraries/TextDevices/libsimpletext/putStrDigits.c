@@ -16,8 +16,9 @@ int putStrLen(char *str, int width)
     ;
   for( ; n < width; n++)
     writeChar(dport_ptr, ' ');
-  while(*str && width--) 
-  {
+  while(*str && width--) {
+    if(*str == '\n')
+      writeChar(dport_ptr, '\r');
     writeChar(dport_ptr, *str);
     str++;
   }

@@ -9,7 +9,6 @@
 #include "serial.h"
 
 #define MORETESTING
-//#define DIV0_NAN_TEST
 
 void scanner(int repeat);
 void dumpstack(int vaddr);
@@ -82,43 +81,17 @@ int main(void)
   putLine("Hello, again!");
 
   sprint(sval,"Toast Test");
-
-
-
-
-  #if 0
-  terminal *t = simpleterm_pointer();
-  for(int n = 0; n < sizeof sval; n++)
-  {
-    if(sval[n] >= ' ' && sval[n] <= 'z')
-    {
-      t->txChar(t, sval[n]);
-    }      
-    else
-    {
-      t->txChar(t, '[');
-      t->txChar(t, sval[n] + '0');
-      t->txChar(t, ']');
-      if(sval[n] == 0) break;
-    }      
-  }
-  #endif    
-
-
-
-
-
   putln(sval);
 
 #if 1
-  putStr("\nscan - Type float, then string, then enter: ");
+  putStr("\nEnter scan float string : ");
   scan("%f %s", &fval, sval);
   print("%f %s\n", fval, sval);
   putFloat(fval);
   putStr("\n");
   putln(sval);
 
-  putStr("\nsscan - Type float, then string, then enter: ");
+  putStr("\nEnter sscan float string: ");
   getStr(buffer, buflen);
   putln(buffer);
   sscan(buffer, "%f %s", &fval, sval);
@@ -127,7 +100,6 @@ int main(void)
   putFloat(fval);
   putStr("\n");
   putln(sval);
-  putStr("\n");
 #endif
 
   putFloat(101.3);
@@ -181,7 +153,7 @@ int main(void)
 
 
 #if 1
-  writeStr(text, "\ndscan - Type float, then string, then enter: ");
+  writeStr(text, "\nEnter dscan float string: ");
   dscan(text, "%f %s", &fval, sval);
   dprint(text, "%f %s\n", fval, sval);
   writeFloat(text, fval);
