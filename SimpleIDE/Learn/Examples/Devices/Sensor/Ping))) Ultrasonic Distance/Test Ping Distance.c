@@ -13,7 +13,7 @@ int main()                                    // main function
 {
   while(1)                                    // Repeat indefinitely
   {
-    int cmDist = ping_cm(15);                 // Get cm distance from Ping)))
+    int cmDist = ping_cm(16);                 // Get cm distance from Ping)))
     print("cmDist = %d\n", cmDist);           // Display distance
     pause(200);                               // Wait 1/5 second
   }

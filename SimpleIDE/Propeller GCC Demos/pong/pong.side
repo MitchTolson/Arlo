@@ -1,7 +1,7 @@
 pong.c
 vga.h
 >compiler=C
->memtype=cog
+>memtype=cog cog ram
 >optimize=-Os
 >-fno-exceptions
 >BOARD::C3

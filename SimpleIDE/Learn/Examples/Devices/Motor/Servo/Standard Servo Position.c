@@ -10,13 +10,15 @@
 #include "simpletools.h"                      // Include simpletools header
 #include "servo.h"                            // Include servo header
 
+
 int main()                                    // main function
 {
-  servo_angle(16, 0);                         // P16 servo to 0 degrees
+  int servoPin = 12;
+  servo_angle(servoPin, 0);                         // P16 servo to 0 degrees
   pause(3000);                                // ...for 3 seconds
-  servo_angle(16, 900);                       // P16 servo to 90 degrees
+  servo_angle(servoPin, 900);                       // P16 servo to 90 degrees
   pause(3000);                                // ...for 3 seconds
-  servo_angle(16, 1800);                      // P16 servo to 180 degrees
+  servo_angle(servoPin, 1800);                      // P16 servo to 180 degrees
   pause(3000);                                // ...for 3 seconds
   servo_stop();                               // Stop servo process
 }
