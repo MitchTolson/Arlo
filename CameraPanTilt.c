@@ -14,7 +14,8 @@
   unsigned int stackTilt[70 + 25];
   void rotateTilt(); //forward declaration
   void rotatePan(); //void *par);
-  
+  int *cogRotatePan;
+  int *cogRotateTilt;
   
 int main()                                    // Main function
 {
@@ -32,33 +33,52 @@ int main()                                    // Main function
   print("Sweap left to right: 6\n");
   print("Sweap right to left: 7\n");
     
-  
+  /*
    int cogRotatePan = cogstart(rotatePan, NULL, stackPan, sizeof(stackPan)); //cogstart returns the ID of the cog. this both launches and stores that val
               //(address of the function, extra value, address of stack array, stack size)
     print("started Pan cog ID: %d\n",cogRotatePan);
     int cogRotateTilt = cogstart(rotateTilt, NULL, stackTilt, sizeof(stackTilt));
     print("started Tilt cog ID: %d\n",cogRotateTilt);
-  
+  */
   while(1)
   {
     // Add main loop code here.
     // int cogRotateTilt = 
      
-    
+ 
     print("Enter your selection for pan and tilt with a space between: ");
     scan("%d %d\n", &scanValPan, &scanValTilt);
     print("You entered: %d for Pan and %d for tilt\n\n",scanValPan, scanValTilt);
+     
+    cogRotatePan = cog_run(rotatePan,sizeof(stackPan));
+    cogRotateTilt = cog_run(rotateTilt,sizeof(stackTilt)); 
     
+    
+    //int *rotatePan = cog_run(rotatePan,128);
+    //int *rotateTilt = cog_run(rotateTilt,128); 
+    print("value of Pan and Tilt: %d %d\n",cog_num(cogRotatePan), cog_num(cogRotateTilt));
+    //pause(6000);
+
+    
+    
+    //cog_end(2);
+    //cog_end(3);
+    
+    /*
     //TODO - currently below executes pan then tilt. if I include defination of cogs in loop here,
     // both execute simultaniously. Need to figure out how to have each cog execute independently
     // 
     rotatePan(), rotateTilt();
-    
+    */
+
+
   }  
 }
 
 void rotateTilt()
 {
+    
+    
     while(scanValTilt!=0)
     {
     
@@ -108,6 +128,7 @@ void rotateTilt()
      }       
      scanValTilt=0;
    }     
+  cog_end(cogRotateTilt);
 } 
 
 void rotatePan()
@@ -161,4 +182,6 @@ while(scanValPan!=0)
      }    
      scanValPan=0;
    }        
+   cog_end(cogRotatePan);
+
 }  
