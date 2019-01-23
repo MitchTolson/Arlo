@@ -10,12 +10,33 @@
   static volatile int timeBetweenCycle=1000;
   static volatile int panPin = 12;
   static volatile int tiltPin = 13;
+  //pid control 
+  static volatile int setPoint = 0;
+  static volatile int Kp = 10;
+  static volatile int Ki = 0.5;
+  static volatile int Kd = 10;
+  static volatile int currentError = 0;
+  static volatile int accumulatorError = 1;
+  static volatile int previousError = 2;
+  static volatile int deltaError = 3;
+  
+  static volatile int sensorInput;
+  static volatile int error;
+  static volatile int p;
+  static volatile int i;
+  static volatile int d;
+  static volatile int drive;
+  
+  
+  //other var
   unsigned int stackPan[40 + 25];  //stack vars for other cog -- 40 long is base for new cog, + 25 is extra memory
   unsigned int stackTilt[70 + 25];
   void rotateTilt(); //forward declaration
   void rotatePan(); //void *par);
   int *cogRotatePan;
   int *cogRotateTilt;
+  
+
   
 int main()                                    // Main function
 {
@@ -185,3 +206,30 @@ while(scanValPan!=0)
    cog_end(cogRotatePan);
 
 }  
+
+int pidController(int Kp, int Ki, int Kd, currentSensorVal, targetSensorVal)
+{
+   double proportional = 0;
+   double integral = 0;
+   double derivative = 0;
+   
+   //calc error
+   error(currentError) = setPoint - sensorInput;
+   error(accumulatorError) = error(accumulatorError) - error(current);
+   error(deltaError) = error(currentError) - error(previousError);
+   error(previousError) = error(currentError); // specifically needs to be after error(currentError) utalization
+   
+   //calc Proportional
+   p = Kp * error(currentError);
+   
+   //calc Integral
+   i = Ki * error(accumulatorError);
+   
+   //calc Derivative
+   d = Kd * error(deltaError);
+   
+   drive = p + i + d;
+   
+   return drive;
+} 
+  
